@@ -1,13 +1,29 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Home</ion-title>
+    <ion-title>App Developer Challenge Enacment</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Home</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-list lines="none" class="ion-no-padding">
+    <ion-item>
+      <ion-input label="Enter an integer number" label-placement="stacked" placeholder="Must be greater than 0" type="number" required min="1" [(ngModel)]="inpNum" #inpNumControlTemplate="ngModel" errorText="You should enter an integer number greater than 0."></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="full" style="margin: 1rem 0;" (click)="onSubmit()" [disabled]="inpNumControlTemplate.invalid">Get result</ion-button>
+  <ion-button *ngIf="result" expand="block" fill="outline" style="margin: 1rem 0;" (click)="reset()">Reset</ion-button>
+
+  <ion-list *ngIf="result" lines="none" class="ion-no-padding">
+    <ion-list-header>
+      <ion-label>Result</ion-label>
+    </ion-list-header>
+
+    <ion-item>List: {{result.list}}</ion-item>
+    <ion-item>Multiples of 3: {{result.multiples3}}</ion-item>
+    <ion-item>Multiples of 5: {{result.multiples5}}</ion-item>
+    <ion-item>Multiples of 7: {{result.multiples7}}</ion-item>
+
+    <ion-item *ngFor="let i of result.listWithColors" style="--color: {{i.colorPrimary}}; --background: {{i.colorSecondary}};">{{i.num}}</ion-item>
+  </ion-list>
 </ion-content>
