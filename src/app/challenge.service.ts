@@ -1,13 +1,26 @@
 import { Injectable } from '@angular/core';
 
+import { FirebaseService } from './firebase.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class ChallengeService {
 
-  constructor() { }
+  constructor(
+    private firebaseService: FirebaseService,
+  ) { }
 
   getResult(num: number): Result {
+    const result = this.getResultInner(num)
+    this.firebaseService.saveRequest({
+      input: num,
+      result: result,
+    })
+    return result
+  }
+
+  private getResultInner(num: number): Result {
     return {
       list: this.getList(num).join(', '),
       multiples3: this.getMultiples(3, num).join(', '),

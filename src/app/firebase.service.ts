@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { initializeApp } from 'firebase/app';
-import { Database, connectDatabaseEmulator, getDatabase } from 'firebase/database';
+import { Database, connectDatabaseEmulator, getDatabase, push, ref, set } from 'firebase/database';
+
+import { Request } from './challenge.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +33,13 @@ export class FirebaseService {
       connectDatabaseEmulator(db, '127.0.0.1', 9000)
     }
     return db
+  }
+
+  saveRequest(request: Request): Promise<void> {
+    const requestsRef = ref(this.db, 'requests')
+    const newRequestRef = push(requestsRef)
+    return set(newRequestRef, request).catch((error: any) => {
+      console.log(error)
+    })
   }
 }
